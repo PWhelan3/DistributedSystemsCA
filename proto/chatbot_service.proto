@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package chatbot;
+
+service ChatbotService {
+  rpc GetAnswer (QueryRequest) returns (AnswerResponse);
+  rpc GetSuggestions (QueryRequest) returns (stream AnswerResponse);
+}
+
+message QueryRequest {
+  string question = 1;
+}
+
+message AnswerResponse {
+  string answer = 1;
+}
