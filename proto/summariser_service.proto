@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package summariser;
+
+service SummariserService {
+  rpc Summarise (TextRequest) returns (SummaryResponse);
+  rpc StreamSummaries (stream TextRequest) returns (stream SummaryResponse);
+}
+
+message TextRequest {
+  string text = 1;
+}
+
+message SummaryResponse {
+  string summary = 1;
+}
