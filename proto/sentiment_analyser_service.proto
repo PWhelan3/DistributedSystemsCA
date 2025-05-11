@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package sentiment;
+
+service SentimentAnalyserService {
+  rpc AnalyseSentiment (SentimentRequest) returns (SentimentResponse);
+}
+
+message SentimentRequest {
+  string message = 1;
+}
+
+message SentimentResponse {
+  string sentiment = 1; // e.g., "positive", "neutral", "negative"
+}
