@@ -45,6 +45,7 @@ h3 {
   margin-top: 2rem;
 }
 
+/* Media queries for responsiveness*/
 @media (max-width: 992px) {
   .card-grid {
     grid-template-columns: repeat(2, 1fr);
