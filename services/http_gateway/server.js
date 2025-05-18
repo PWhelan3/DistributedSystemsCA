@@ -23,6 +23,7 @@ const chatbotPath = path.join(__dirname, '../../proto/chatbot_service.proto');
 const chatbotDef = protoLoader.loadSync(chatbotPath);
 const chatbotProto = grpc.loadPackageDefinition(chatbotDef).chatbot;
 
+
 // Load Summariser proto
 const summariserPath = path.join(__dirname, '../../proto/summariser_service.proto');
 const summariserDef = protoLoader.loadSync(summariserPath);
@@ -46,9 +47,18 @@ app.get('/services', (req, res) => {
   });
 });
 
+app.get('/ping', (req, res) => {
+    console.log('Ping received');
+    res.json({ message: 'pong' });
+  });
+
+
 // Chatbot route
 app.post('/chatbot', (req, res) => {
   const { input } = req.body;
+
+  console.log('[Gateway] /chatbot input:', input);
+
   const client = new chatbotProto.ChatbotService('localhost:50051', grpc.credentials.createInsecure());
 
   client.GetAnswer({ question: input }, (err, response) => {
