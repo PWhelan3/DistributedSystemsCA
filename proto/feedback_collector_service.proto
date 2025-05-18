@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package feedback;
+
+service FeedbackCollectorService {
+  rpc CollectFeedback (stream FeedbackMessage) returns (FeedbackSummary);
+}
+
+message FeedbackMessage {
+  string message = 1;
+}
+
+message FeedbackSummary {
+  int32 total_messages = 1;
+  string thank_you_note = 2;
+}
