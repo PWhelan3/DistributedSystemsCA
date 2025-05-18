@@ -1,8 +1,29 @@
-// services/chatbot/server.js
+
 
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 const path = require('path');
+
+// For registering service
+const registryPath = path.join(__dirname, '../../proto/registry_service.proto');
+const registryDef = protoLoader.loadSync(registryPath);
+const registryProto = grpc.loadPackageDefinition(registryDef).registry;
+
+const registryClient = new registryProto.RegistryService(
+  'localhost:5000', grpc.credentials.createInsecure()
+);
+
+// Function to Register service
+function registerService(name, address) {
+  registryClient.RegisterService({ name, address }, (err, res) => {
+    if (err) {
+      console.error(`Failed to register ${name}:`, err);
+    } else {
+      console.log(`${name} registered with registry.`);
+    }
+  });
+}
+
 
 const PROTO_PATH = path.join(__dirname, '../../proto/chatbot_service.proto');
 const packageDefinition = protoLoader.loadSync(PROTO_PATH);
@@ -35,6 +56,8 @@ function main() {
     console.log(`ChatbotService running at ${address}`);
     server.start();
   });
+  registerService('ChatbotService', 'localhost:50051');
+
 }
 
 main();

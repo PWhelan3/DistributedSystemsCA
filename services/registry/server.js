@@ -12,7 +12,7 @@ const registryService = {
   RegisterService: (call, callback) => {
     const { name, address } = call.request;
 
-    // To Prevent duplicates
+    // To Try Prevent duplicates
     const exists = registeredServices.find(service => service.name === name);
     if (!exists) {
       registeredServices.push({ name, address });
